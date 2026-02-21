@@ -95,27 +95,47 @@ os.makedirs("memoria2", exist_ok=True)
 os.makedirs(PERSIST_DIR, exist_ok=True)
 
 # =============================
-# MEMORIA PERSISTENTE LIGERA
+# MEMORIA PERSISTENTE LIGERA (CORREGIDA)
 # =============================
 def cargar_memoria_txt(memory):
+    """Carga el historial desde archivo de texto"""
     if not os.path.exists(CHAT_MEMORY_FILE):
         return
-    with open(CHAT_MEMORY_FILE, "r", encoding="utf-8") as f:
-        lines = f.readlines()
-    mensajes = []
-    for linea in lines[-10:]:
-        linea = linea.strip()
-        if linea.startswith("Usuario:"):
-            mensajes.append(HumanMessage(content=linea.replace("Usuario:", "").strip()))
-        elif linea.startswith("Asistente:"):
-            mensajes.append(AIMessage(content=linea.replace("Asistente:", "").strip()))
-    if mensajes:
-        memory.chat_memory.add_messages(mensajes)
+    
+    try:
+        with open(CHAT_MEMORY_FILE, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+        
+        # Procesar líneas en pares (Usuario/Asistente)
+        i = 0
+        while i < len(lines):
+            linea = lines[i].strip()
+            if linea.startswith("Usuario:"):
+                pregunta = linea.replace("Usuario:", "").strip()
+                # Buscar la siguiente línea que sea del asistente
+                if i + 1 < len(lines) and lines[i+1].strip().startswith("Asistente:"):
+                    respuesta = lines[i+1].strip().replace("Asistente:", "").strip()
+                    # Agregar a la memoria usando el método correcto
+                    memory.save_context(
+                        {"input": pregunta}, 
+                        {"output": respuesta}
+                    )
+                    i += 2
+                else:
+                    i += 1
+            else:
+                i += 1
+    except Exception as e:
+        print(f"Error al cargar memoria: {e}")
 
 def guardar_memoria_txt(pregunta, respuesta):
-    with open(CHAT_MEMORY_FILE, "a", encoding="utf-8") as f:
-        f.write(f"Usuario: {pregunta}\n")
-        f.write(f"Asistente: {respuesta}\n\n")
+    """Guarda el historial en archivo de texto"""
+    try:
+        with open(CHAT_MEMORY_FILE, "a", encoding="utf-8") as f:
+            f.write(f"Usuario: {pregunta}\n")
+            f.write(f"Asistente: {respuesta}\n\n")
+    except Exception as e:
+        print(f"Error al guardar memoria: {e}")
 
 # =============================
 # CARGA DEL SISTEMA ECO
@@ -170,6 +190,35 @@ def cargar_sistema():
 # INTERFAZ
 # =============================
 st.set_page_config(page_title="MisterBot2 - EcoIA", page_icon="⚡", layout="centered")
+
+# =============================
+# BARRA LATERAL CON LOGO (CORREGIDA)
+# =============================
+with st.sidebar:
+    st.markdown("## 🤖 EcoIA")
+    
+    # Intentar cargar logo si existe (manejo de errores mejorado)
+    logo_path = "logo.png"
+    if os.path.exists(logo_path):
+        try:
+            st.image(logo_path, width=300)  # Ajusta el número según el tamaño que quieras
+        except Exception as e:
+            st.warning("Logo no disponible")
+    else:
+        st.markdown("---")
+        st.markdown("### Sistema")
+        st.info("✅ Optimizado 8GB RAM")
+        st.markdown("### Modelos:")
+        st.code("llama3:8b-instruct\nnomic-embed-text")
+    
+    st.markdown("---")
+    st.markdown("### Comandos:")
+    st.code("ollama pull llama3:8b-instruct-q4_0")
+    st.code("ollama pull nomic-embed-text")
+
+# =============================
+# CONTENIDO PRINCIPAL
+# =============================
 st.title("⚡ MisterBot2 - EcoIA")
 st.caption("Asistente ligero optimizado para 8GB RAM")
 
