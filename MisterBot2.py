@@ -84,7 +84,7 @@ except ImportError:
                               combine_docs_chain_kwargs=combine_docs_chain_kwargs, **kwargs)
 
 # =============================
-# CONFIGURACIÓN ECOIA
+# CONFIGURACIÓN ECO-IA
 # =============================
 MODEL_NAME = "llama3:8b-instruct-q4_0"
 EMBED_MODEL = "nomic-embed-text"
@@ -189,13 +189,13 @@ def cargar_sistema():
 # =============================
 # INTERFAZ
 # =============================
-st.set_page_config(page_title="MisterBot2 - EcoIA", page_icon="⚡", layout="centered")
+st.set_page_config(page_title="MisterBot2 - EcoIA", page_icon="🤖", layout="centered")
 
 # =============================
 # BARRA LATERAL CON LOGO (CORREGIDA)
 # =============================
 with st.sidebar:
-    st.markdown("## 🤖 EcoIA")
+    st.markdown("## 🤖 Eco-IA")
     
     # Intentar cargar logo si existe (manejo de errores mejorado)
     logo_path = "logo.png"
@@ -207,7 +207,7 @@ with st.sidebar:
     else:
         st.markdown("---")
         st.markdown("### Sistema")
-        st.info("✅ Optimizado 8GB RAM")
+        st.info("✅ Optimizado")
         st.markdown("### Modelos:")
         st.code("llama3:8b-instruct\nnomic-embed-text")
     
@@ -219,8 +219,8 @@ with st.sidebar:
 # =============================
 # CONTENIDO PRINCIPAL
 # =============================
-st.title("⚡ MisterBot2 - EcoIA")
-st.caption("Asistente ligero optimizado para 8GB RAM")
+st.title("🤖 MisterBot2 - Eco-IA")
+st.caption("Asistente optimizado")
 
 # Verificar que Ollama esté corriendo
 try:
@@ -267,6 +267,6 @@ if pregunta:
 
 st.markdown("---")
 st.markdown(
-    "<div style='text-align:center;color:gray;'>MisterBot2 EcoIA | Optimizado para bajo consumo | Prof. Raymond Rosa Ávila</div>",
+    "<div style='text-align:center;color:gray;'>Licencia CC-NC; Prof. Raymond Rosa Ávila</div>",
     unsafe_allow_html=True
 )
