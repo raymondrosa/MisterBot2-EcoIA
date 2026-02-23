@@ -191,6 +191,68 @@ def cargar_sistema():
 # =============================
 st.set_page_config(page_title="MisterBot2 - EcoIA", page_icon="🤖", layout="centered")
 
+
+import base64
+
+def set_background_local(image_path):
+    """
+    Establece una imagen local como fondo
+    """
+    try:
+        with open(image_path, "rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read()).decode()
+        
+        st.markdown(
+            f"""
+            <style>
+            .stApp {{
+                background-image: url(data:image/{"png" if image_path.endswith('.png') else "jpeg"};base64,{encoded_string});
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+            }}
+            
+            /* Contenedor principal semitransparente */
+            .main .block-container {{
+                background-color: rgba(0, 0, 0, 0.7);
+                padding: 2rem;
+                border-radius: 15px;
+                backdrop-filter: blur(5px);
+            }}
+            
+            /* Texto en blanco para contraste */
+            h1, h2, h3, p, .stMarkdown {{
+                color: white !important;
+            }}
+            
+            /* Sidebar estilizado */
+            [data-testid="stSidebar"] {{
+                background-color: rgba(0, 0, 0, 0.8) !important;
+                backdrop-filter: blur(10px);
+            }}
+            
+            /* Inputs más visibles */
+            .stTextInput input {{
+                background-color: rgba(255, 255, 255, 0.9) !important;
+                border: 2px solid #4CAF50 !important;
+            }}
+            
+            /* Código legible */
+            .stCode {{
+                background-color: rgba(0, 0, 0, 0.5) !important;
+                color: #00ff00 !important;
+            }}
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+    except Exception as e:
+        st.warning(f"No se pudo cargar la imagen: {e}")
+
+# Uso:
+st.set_page_config(page_title="MisterBot2 - EcoIA", page_icon="⚡", layout="centered")
+set_background_local("fondo.png")  # Asegúrate de tener un archivo fondo.jpg en el directorio
+
 # =============================
 # BARRA LATERAL CON LOGO (CORREGIDA)
 # =============================
@@ -267,6 +329,7 @@ if pregunta:
 
 st.markdown("---")
 st.markdown(
-    "<div style='text-align:center;color:gray;'>Licencia CC-NC; Prof. Raymond Rosa Ávila</div>",
+    "Licencia CC-NC; Prof. <span style='color: #0066cc; font-weight: bold;'>Raymond Rosa Ávila</span></div>",
     unsafe_allow_html=True
+
 )
