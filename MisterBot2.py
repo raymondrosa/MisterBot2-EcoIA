@@ -329,7 +329,7 @@ if pregunta:
 
 st.markdown("---")
 st.markdown(
-    "Licencia CC-NC; Prof. <span style='color: #0066cc; font-weight: bold;'>Raymond Rosa Ávila</span></div>",
+    "<span style='color: #0066cc; font-weight: bold;'>Licencia CC-NC; Prof.Raymond Rosa Ávila</span></div>",
     unsafe_allow_html=True
 
 )
