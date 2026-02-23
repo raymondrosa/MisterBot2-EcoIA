@@ -1,3 +1,5 @@
+Licencia: CC-NC; Código de registro: 2602234666960; Prof. Raymond Rosa Ávila
+
 🤖 MisterBot2 – Eco-IA
 
 Asistente conversacional inteligente con memoria persistente, RAG (Retrieval-Augmented Generation) y procesamiento de documentos PDF utilizando modelos locales con Ollama.
